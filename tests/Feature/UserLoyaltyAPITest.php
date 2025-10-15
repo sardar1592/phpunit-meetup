@@ -59,4 +59,14 @@ class UserLoyaltyAPITest extends TestCase
 
         $response->assertStatus(302);
     }
+
+    public function testOneUserCanNotAccessAnotherUsersLoyaltyInfo()
+    {
+        $anotherUser = User::factory()->create();
+
+        $response = $this->actingAs($anotherUser)
+            ->get('/api/loyalty/' . $this->user->id);
+
+        $response->assertStatus(403);
+    }
 }

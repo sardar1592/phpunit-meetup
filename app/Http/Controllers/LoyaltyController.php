@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class LoyaltyController extends Controller
 {
@@ -11,6 +13,10 @@ class LoyaltyController extends Controller
      */
     public function __invoke(User $user)
     {
+        if (Auth::user()->id !== $user->id) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
         return response()->json([
 
             'user_id' => $user->id,
