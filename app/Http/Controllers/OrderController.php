@@ -17,33 +17,21 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreOrderRequest $request)
     {
-        //
+        $order = new Order();
+        $order->user_id = $request->user_id;
+        $order->amount = $request->amount;
+        $order->save();
+        return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
     {
         //
     }
