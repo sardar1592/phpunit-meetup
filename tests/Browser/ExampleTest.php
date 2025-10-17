@@ -13,7 +13,7 @@ class ExampleTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                ->pause(1000)
+                ->waitForText('Laravel')
                 ->assertSee('Laravel')
                 ->assertSee("Let's get started")
                 ->assertSeeLink('Documentation')
