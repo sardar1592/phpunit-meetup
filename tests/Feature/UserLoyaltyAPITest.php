@@ -31,8 +31,10 @@ class UserLoyaltyAPITest extends TestCase
     public function testItCanDetectTheLoyaltyTierCorrectly()
     {
 
+        $url = env('APP_URL') . '/api/loyalty/' . $this->user->id;
+
         $response = $this->actingAs($this->user)
-            ->get('/api/loyalty/' . $this->user->id);
+            ->get($url);
 
         $response->assertStatus(200);
 
@@ -46,14 +48,14 @@ class UserLoyaltyAPITest extends TestCase
 
     public function testItReturns404ForNonExistentUser()
     {
-        $last_user = User::latest('id')->first();
+        $url = env('APP_URL') . '/api/loyalty/' . ($this->user->id + rand(5, 1000));
 
-        $response = $this->actingAs($this->user)->get('/api/loyalty/' . ($last_user->id + 1));
+        $response = $this->actingAs($this->user)->get($url);
 
         $response->assertStatus(404);
     }
 
-    public function testItReturns401ForUnauthenticatedUser()
+    public function testItReturns302ForUnauthenticatedUser()
     {
         $response = $this->get('/api/loyalty/' . $this->user->id);
 

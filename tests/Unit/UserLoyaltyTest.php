@@ -16,9 +16,15 @@ class UserLoyaltyTest extends TestCase
 
     public Collection $orders;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+    }
+
     public function test_new_user_has_tier_none()
     {
-        $this->user = User::factory()->create();
 
         $this->assertEquals($this->user->loyaltyTier(), 'None');
     }
@@ -26,7 +32,6 @@ class UserLoyaltyTest extends TestCase
 
     public function test_user_with_orders_between_0_and_100_has_none_tier()
     {
-        $this->user = User::factory()->create();
 
         $this->orders = Order::factory()->count(5)->create([
             'user_id' => $this->user->id,
@@ -37,7 +42,6 @@ class UserLoyaltyTest extends TestCase
     }
     public function test_user_with_orders_between_100_and_500_has_bronze_tier()
     {
-        $this->user = User::factory()->create();
 
         $this->orders = Order::factory()->count(5)->create([
             'user_id' => $this->user->id,
@@ -49,21 +53,17 @@ class UserLoyaltyTest extends TestCase
 
     public function test_user_with_orders_between_500_and_1000_has_silver_tier()
     {
-        $this->user = User::factory()->create();
 
         $this->orders = Order::factory()->count(5)->create([
             'user_id' => $this->user->id,
             'amount' => fake()->numberBetween(100, 200)
         ]);
 
-        dump($this->user->getTotalOrderAmountForUser());
-
         $this->assertEquals($this->user->loyaltyTier(), 'Silver');
     }
 
     public function test_user_with_orders_between_1000_and_5000_has_gold_tier()
     {
-        $this->user = User::factory()->create();
 
         $this->orders = Order::factory()->count(5)->create([
             'user_id' => $this->user->id,
@@ -73,9 +73,8 @@ class UserLoyaltyTest extends TestCase
         $this->assertEquals($this->user->loyaltyTier(), 'Gold');
     }
 
-    public function test_user_with_orders_till_10000_has_platinum_tier()
+    public function test_user_with_orders_between_5000_and_10000_has_platinum_tier()
     {
-        $this->user = User::factory()->create();
 
         $this->orders = Order::factory()->count(10)->create([
             'user_id' => $this->user->id,
@@ -87,9 +86,8 @@ class UserLoyaltyTest extends TestCase
 
     public function test_user_with_orders_above_10000_has_diamond_tier()
     {
-        $this->user = User::factory()->create();
 
-        $this->orders = Order::factory()->count(15)->create([
+        $this->orders = Order::factory()->count(10)->create([
             'user_id' => $this->user->id,
             'amount' => fake()->numberBetween(1000, 10000)
         ]);
@@ -99,7 +97,6 @@ class UserLoyaltyTest extends TestCase
 
     public function test_user_with_orders_exactly_5000_has_platinum_tier()
     {
-        $this->user = User::factory()->create();
 
         Order::factory()->create([
             'user_id' => $this->user->id,
@@ -111,7 +108,6 @@ class UserLoyaltyTest extends TestCase
 
     public function test_user_with_orders_exactly_10000_has_diamond_tier()
     {
-        $this->user = User::factory()->create();
 
         Order::factory()->create([
             'user_id' => $this->user->id,
@@ -123,8 +119,6 @@ class UserLoyaltyTest extends TestCase
 
     public function test_user_with_orders_exactly_10001_has_diamond_tier()
     {
-        $this->user = User::factory()->create();
-
         Order::factory()->create([
             'user_id' => $this->user->id,
             'amount' => 10001

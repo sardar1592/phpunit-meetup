@@ -23,7 +23,7 @@ class UserTierTest extends DuskTestCase
             'amount' => fake()->numberBetween(20, 100)
         ]);
     }
-    public function testExample(): void
+    public function testUserTierIsCorrectlyVisibleIntheUI(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
