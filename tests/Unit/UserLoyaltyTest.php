@@ -35,7 +35,7 @@ class UserLoyaltyTest extends TestCase
 
         $this->orders = Order::factory()->count(5)->create([
             'user_id' => $this->user->id,
-            'amount' => fake()->numberBetween(0, 20)
+            'amount' => fake()->numberBetween(0, 19)
         ]);
 
         $this->assertEquals($this->user->loyaltyTier(), 'None');
@@ -45,7 +45,7 @@ class UserLoyaltyTest extends TestCase
 
         $this->orders = Order::factory()->count(5)->create([
             'user_id' => $this->user->id,
-            'amount' => fake()->numberBetween(20, 100)
+            'amount' => fake()->numberBetween(20, 99)
         ]);
 
         $this->assertEquals($this->user->loyaltyTier(), 'Bronze');
@@ -56,7 +56,7 @@ class UserLoyaltyTest extends TestCase
 
         $this->orders = Order::factory()->count(5)->create([
             'user_id' => $this->user->id,
-            'amount' => fake()->numberBetween(100, 200)
+            'amount' => fake()->numberBetween(100, 199)
         ]);
 
         $this->assertEquals($this->user->loyaltyTier(), 'Silver');
@@ -67,7 +67,7 @@ class UserLoyaltyTest extends TestCase
 
         $this->orders = Order::factory()->count(5)->create([
             'user_id' => $this->user->id,
-            'amount' => fake()->numberBetween(200, 1000)
+            'amount' => fake()->numberBetween(200, 999)
         ]);
 
         $this->assertEquals($this->user->loyaltyTier(), 'Gold');
@@ -89,7 +89,7 @@ class UserLoyaltyTest extends TestCase
 
         $this->orders = Order::factory()->count(10)->create([
             'user_id' => $this->user->id,
-            'amount' => fake()->numberBetween(1000, 10000)
+            'amount' => fake()->numberBetween(1000, 9999)
         ]);
 
         $this->assertEquals($this->user->loyaltyTier(), 'Diamond');
