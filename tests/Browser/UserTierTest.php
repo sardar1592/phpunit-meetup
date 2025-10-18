@@ -20,7 +20,7 @@ class UserTierTest extends DuskTestCase
 
         Order::factory(5)->create([
             'user_id' => $user->id,
-            'amount' => fake()->numberBetween(20, 100)
+            'amount' => fake()->numberBetween(20, 99)
         ]);
     }
     public function testUserTierIsCorrectlyVisibleIntheUI(): void
